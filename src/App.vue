@@ -6,7 +6,7 @@
 
 
 <template>
-  <div><router-view></router-view>fgdfgfdg</div>
+  <router-view></router-view>
 </template>
 
 <style>

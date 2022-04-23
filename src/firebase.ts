@@ -1,6 +1,7 @@
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, doc } from 'firebase/firestore/lite';
+import { IToDo } from './todo.interface';
 
 
 const firebaseConfig = {
@@ -20,13 +21,28 @@ export default function useFirebase(){
     const getToDos= async ()=>{
         const todosCol = collection(db,'todos')
         const todoSnapshot =await getDocs(todosCol)
-        const todoList = todoSnapshot.docs.map(doc => doc.data());
-        console.log(todoSnapshot.docs)
-        return todoList;
+        const todoList = todoSnapshot.docs.map(doc => {
+          return{
+            ...doc.data(),id:doc.id
+          }
+        });
+        
+        return todoList as IToDo[];
+
         
     }
-
+    const addToDo =async (title: string, des: string)=>{
+      const todosCol = collection(db,'todos')
+      const tododata = await addDoc(todosCol, {
+        title : title,
+        des : des,
+        isConfirmed:false,
+      })
+    }
+  
   return{
     getToDos,
+    addToDo,
+
   }  
 }

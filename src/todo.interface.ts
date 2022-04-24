@@ -1,9 +1,6 @@
-
-
-export interface IToDo{
- id: string;
-    title: string;
-    des:string;
-    isConfirmed:boolean;
-
+export interface IToDo {
+  id: string;
+  title: string;
+  des: string;
+  isConfirmed: boolean;
 }

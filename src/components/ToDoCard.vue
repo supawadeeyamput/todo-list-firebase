@@ -6,13 +6,14 @@ const props = defineProps({
         type : Object as () =>IToDo,
     },
 })
+const emit =defineEmits(['updateConfirm','removeToDo']);
 
 
 </script>
 <template>
     <div class="todo-card">
         <div class="todo-card-in ">
-            <div class="card-check" :class="{'is-confirmed':item.isConfirmed }"><i class="las la-check check-icon rounded-circle" ></i>
+            <div class="card-check" :class="{'is-confirmed':item.isConfirmed }" @click="emit('updateConfirm',item.id,item.isConfirmed)"><i class="las la-check check-icon rounded-circle" ></i>
             </div>
             <div class="tab-color">
 
@@ -22,7 +23,7 @@ const props = defineProps({
 
             </div>
             <div class="card-body">{{ item.des }}</div>
-            <div class="card-bottom"><i class="las la-trash delete-icon"></i></div>
+            <div class="card-bottom" @click="emit('removeTodo',item.id) " ><i class="las la-trash delete-icon"></i></div>
         </div>
     </div>
 </template>

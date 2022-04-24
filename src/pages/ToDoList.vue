@@ -6,10 +6,13 @@ import useFirebase from '../firebase';
 
 import ToDoCard from '../components/ToDoCard.vue';
 import { IToDo } from '../todo.interface';
+import { updateDoc } from '@firebase/firestore/dist/lite';
 
 const {
     getToDos,
     addToDo,
+    updateConfirmed,
+    deleteToDo,
     
 } = useFirebase();
 const title = ref<string>('')
@@ -20,6 +23,17 @@ const toDos =ref<IToDo[]>([])
 const addData = async() =>{ 
      await addToDo(title.value,des.value) 
       toDos.value = await getToDos();
+}
+const updateConfirm = async(id:string,isConfirmed:boolean)=>{
+    await updateConfirmed(id, !isConfirmed)
+    console.log('updateConfirm')
+     toDos.value = await getToDos();
+}
+const removeToDo =async(id:string)=>{
+    if (!confirm('Are you sure?')) return;
+    await deleteToDo(id)
+
+    toDos.value = await getToDos();
 }
 onMounted(async () => {
      toDos.value = await getToDos();
@@ -54,7 +68,7 @@ onMounted(async () => {
                     </div>
 
                 </div>
-                <ToDoCard v-for="toDo in toDos" :key="toDo.id" :item="toDo"/>
+                <ToDoCard v-for="toDo in toDos" :key="toDo.id" :item="toDo" @update-confirm="updateConfirm" @remove-todo="removeToDo"/>
                
             </div>
             <!-- <div class="topic-title">

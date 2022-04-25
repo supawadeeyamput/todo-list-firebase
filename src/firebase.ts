@@ -55,10 +55,20 @@ export default function useFirebase() {
     const removeTodo = await deleteDoc(todoRef);
   };
 
+  const editToDo =async(id:string,title:string,des:string) =>{
+    const todoRef = doc(db,"todos", id);
+    const editToDoDoc =await updateDoc(todoRef,{
+      title:title,
+      des:des,
+
+    })
+  }
+
   return {
     getToDos,
     addToDo,
     updateConfirmed,
     deleteToDo,
+    editToDo,
   };
 }

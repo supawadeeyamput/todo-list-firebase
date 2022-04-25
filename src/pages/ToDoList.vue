@@ -8,45 +8,57 @@ import ToDoCard from '../components/ToDoCard.vue';
 import { IToDo } from '../todo.interface';
 import { updateDoc } from '@firebase/firestore/dist/lite';
 
+import { trigger } from '@vue/reactivity';
+
 const {
     getToDos,
     addToDo,
     updateConfirmed,
     deleteToDo,
-    
+    editToDo,
+
 } = useFirebase();
 const title = ref<string>('')
 const des = ref<string>('')
-const toDos =ref<IToDo[]>([])
+const toDos = ref<IToDo[]>([])
 
 
-const addData = async() =>{ 
-     await addToDo(title.value,des.value) 
-      toDos.value = await getToDos();
+const addData = async () => {
+    await addToDo(title.value, des.value)
+    toDos.value = await getToDos();
 }
-const updateConfirm = async(id:string,isConfirmed:boolean)=>{
+const updateConfirm = async (id: string, isConfirmed: boolean) => {
     await updateConfirmed(id, !isConfirmed)
     console.log('updateConfirm')
-     toDos.value = await getToDos();
+    toDos.value = await getToDos();
 }
-const removeToDo =async(id:string)=>{
+const removeToDo = async (id: string) => {
     if (!confirm('Are you sure?')) return;
     await deleteToDo(id)
 
     toDos.value = await getToDos();
 }
+const editData = async (id: string, title: string, des: string) => {
+    await editToDo(id, title, des);
+    toDos.value = await getToDos();
+}
 onMounted(async () => {
-     toDos.value = await getToDos();
-    })
+    toDos.value = await getToDos();
+})
+
+
 
 
 </script>
 
 <template>
-      <div class="todolist-page">
+
+    <div class="todolist-page">
         <div class="container">
+            
             <div class="topic-title">
-                <h1>To Do List</h1></div>
+                <h1>To Do List</h1>
+            </div>
             <div class="todolist pt-3 d-flex flex-wrap ">
                 <div class="add-todo-form ">
                     <div class="input-group">
@@ -64,12 +76,13 @@ onMounted(async () => {
                             aria-describedby="basic-addon1" />
                     </div>
                     <div class="d-flex justify-content-center align-items-center mt-4">
-                        <button  class="btn btn-warning px-3 py-2 " @click="addData" >Add</button>
+                        <button class="btn btn-warning px-3 py-2 " @click="addData">Add</button>
                     </div>
 
                 </div>
-                <ToDoCard v-for="toDo in toDos" :key="toDo.id" :item="toDo" @update-confirm="updateConfirm" @remove-todo="removeToDo"/>
-               
+                <ToDoCard v-for="toDo in toDos" :key="toDo.id" :item="toDo" @update-confirm="updateConfirm"
+                    @remove-todo="removeToDo" />
+
             </div>
             <!-- <div class="topic-title">
                 <h1>To Do List Completed</h1></div>
@@ -110,12 +123,12 @@ onMounted(async () => {
     gap: 1em;
 }
 
-.topic-title{
+.topic-title {
     color: #fff;
     font-size: 2rem;
     text-align: center;
     margin-bottom: 2rem;
     padding-top: 1em;
-    border-top: 1px solid white
+
 }
 </style>

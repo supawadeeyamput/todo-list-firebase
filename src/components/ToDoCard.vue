@@ -1,19 +1,29 @@
 <script setup lang="ts">
+import { ref } from '@vue/reactivity';
 import { IToDo } from '../todo.interface';
+import ToDoPopup from './ToDoPopup.vue';
 
 const props = defineProps({
     item: {
-        type : Object as () =>IToDo,
+        type: Object as () => IToDo,
     },
 })
-const emit =defineEmits(['updateConfirm','removeToDo']);
+const emit = defineEmits(['updateConfirm', 'removeToDo']);
 
+const popupTrigger = ref(false)
+const TogglePopup =()=>{
+    popupTrigger.value = !popupTrigger.value
+}
 
 </script>
 <template>
     <div class="todo-card">
         <div class="todo-card-in ">
-            <div class="card-check" :class="{'is-confirmed':item.isConfirmed }" @click="emit('updateConfirm',item.id,item.isConfirmed)"><i class="las la-check check-icon rounded-circle" ></i>
+            <ToDoPopup v-if="popupTrigger"
+            :TogglePopup="() =>TogglePopup()"/>
+            <div class="card-check" :class="{ 'is-confirmed': item.isConfirmed }"
+                @click="emit('updateConfirm', item.id, item.isConfirmed)"><i
+                    class="las la-check check-icon rounded-circle"></i>
             </div>
             <div class="tab-color">
 
@@ -23,8 +33,12 @@ const emit =defineEmits(['updateConfirm','removeToDo']);
 
             </div>
             <div class="card-body">{{ item.des }}</div>
-            <div class="card-bottom" @click="emit('removeTodo',item.id) " ><i class="las la-trash delete-icon"></i></div>
+            <div class="card-bottom" @click="emit('removeTodo', item.id)"><i class="las la-trash delete-icon"></i></div>
+            <div class="card-edit" @click="TogglePopup()"><i class="las la-pen edit-icon"></i></div>
         </div>
+        
+
+
     </div>
 </template>
 <style scoped>
@@ -67,18 +81,15 @@ const emit =defineEmits(['updateConfirm','removeToDo']);
     outline: 1px solid #efbc67;
     border-radius: 50%;
     background-color: #fdfefb;
-
-    
-
-
-
 }
-.is-confirmed .check-icon{
-       
+
+
+.is-confirmed .check-icon {
+
     display: block;
     color: white;
-        
-    }
+
+}
 
 
 .check-icon {
@@ -103,4 +114,16 @@ const emit =defineEmits(['updateConfirm','removeToDo']);
     cursor: pointer;
     padding: 5px;
 }
+
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 40px;
+    font-size: 30px;
+    color: #efbc67;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 5px;
+}
+
 </style>

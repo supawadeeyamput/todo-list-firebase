@@ -38,10 +38,7 @@ const removeToDo = async (id: string) => {
 
     toDos.value = await getToDos();
 }
-const editData = async (id: string, title: string, des: string) => {
-    await editToDo(id, title, des);
-    toDos.value = await getToDos();
-}
+
 onMounted(async () => {
     toDos.value = await getToDos();
 })

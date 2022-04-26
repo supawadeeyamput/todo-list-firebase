@@ -10,6 +10,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['updateConfirm', 'removeToDo']);
 
+
 const popupTrigger = ref(false)
 const TogglePopup =()=>{
     popupTrigger.value = !popupTrigger.value
@@ -20,7 +21,7 @@ const TogglePopup =()=>{
     <div class="todo-card">
         <div class="todo-card-in ">
             <ToDoPopup v-if="popupTrigger"
-            :TogglePopup="() =>TogglePopup()"/>
+            :TogglePopup="() =>TogglePopup() " :key="item.id" :item="item"  />
             <div class="card-check" :class="{ 'is-confirmed': item.isConfirmed }"
                 @click="emit('updateConfirm', item.id, item.isConfirmed)"><i
                     class="las la-check check-icon rounded-circle"></i>
@@ -34,7 +35,7 @@ const TogglePopup =()=>{
             </div>
             <div class="card-body">{{ item.des }}</div>
             <div class="card-bottom" @click="emit('removeTodo', item.id)"><i class="las la-trash delete-icon"></i></div>
-            <div class="card-edit" @click="TogglePopup()"><i class="las la-pen edit-icon"></i></div>
+            <div class="card-edit" @click="TogglePopup()" ><i class="las la-pen edit-icon"></i></div>
         </div>
         
 

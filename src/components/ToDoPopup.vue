@@ -1,11 +1,24 @@
 <script setup lang="ts">
+import useFirebase from '../firebase'
+import { IToDo } from '../todo.interface'
+
 
 const props = defineProps({
     TogglePopup:{
         type:Function,
-    }
+    },
+    item: {
+        type: Object as () => IToDo,
+    },
 })
-  
+const{
+    editToDo,
+}=useFirebase()
+
+const editData = async (id: string, title: string, des: string) => {
+    await editToDo(id, title, des);
+    window.location.reload()
+}
 
 
 
@@ -23,18 +36,18 @@ const props = defineProps({
                 <span class="input-group-text" id="basic-addon1">
                     Title
                 </span>
-                <input type="text" class="form-control" placeholder="Title" aria-label="Title"
+                <input v-model="item.title" type="text" class="form-control" placeholder="Title" aria-label="Title"
                     aria-describedby="basic-addon1" />
             </div>
             <div class="input-group mt-3">
                 <span class="input-group-text" id="basic-addon1">
                     Body
                 </span>
-                <textarea class="form-control " placeholder="Body" aria-label="Body" aria-describedby="basic-addon1" />
+                <textarea v-model="item.des" class="form-control " placeholder="Body" aria-label="Body" aria-describedby="basic-addon1" />
             </div>
             <div class="d-flex justify-content-center align-items-center mt-4">
                 <button class="btn btn-danger px-3 py-2 " @click="TogglePopup()">CANCEL</button>
-                <button class="btn btn-warning px-3 py-2 ms-2">EDIT</button>
+                <button class="btn btn-warning px-3 py-2 ms-2" @click="editData(item.id,item.title,item.des)">EDIT</button>
 
             </div>
 

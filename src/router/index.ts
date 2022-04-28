@@ -2,13 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../components/HelloWorld.vue";
 import ToDolist from "../pages/ToDoList.vue"
 const routes: RouteRecordRaw[] = [
+  
   {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path:"/todolist",
+    path:"/",
     name: "ToDoliat",
     component:ToDolist,
   },

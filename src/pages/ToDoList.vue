@@ -81,21 +81,7 @@ onMounted(async () => {
                     @remove-todo="removeToDo" />
 
             </div>
-            <!-- <div class="topic-title">
-                <h1>To Do List Completed</h1></div>
-            <div class="todolist pt-3 d-flex flex-wrap ">
-                
-                 <ToDoCard v-for="toDo in toDosCompleted" :key="toDo.id" :to-do-info="toDo" @remove-to-do="removeToDo"
-                    @toggle-to-do-complete="toggleCompleted" />
-
-            </div>
-            <div class="topic-title">
-                <h1>To Do List Uncompleted</h1></div>
-             <div class="todolist pt-3 d-flex flex-wrap ">
-                 <ToDoCard v-for="toDo in toDosUncompleted" :key="toDo.id" :to-do-info="toDo" @remove-to-do="removeToDo"
-                    @toggle-to-do-complete="toggleCompleted" />
-
-            </div> -->
+      
         </div>
     </div>
 </template>
